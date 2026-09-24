@@ -1,0 +1,25 @@
+# Virtual Environment
+.venv/
+.vnenv/
+venv/
+env/
+
+# Agents / IDE configs
+.agents/
+.agent/
+.gemini/
+
+# Tests & Reports
+tests/
+baocao/
+Baocao/
+
+# Python cache & Streamlit
+__pycache__/
+*.py[cod]
+*$py.class
+.streamlit/
+
+# OS files
+.DS_Store
+Thumbs.db
