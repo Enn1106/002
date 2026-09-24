@@ -192,7 +192,8 @@ class CarRecommender:
 
         return pd.DataFrame([row])[self.feature_matrix.columns].values[0].astype(float)
 
-    def recommend(self, query: dict, weights: dict = None, k: int = 5) -> pd.DataFrame:
+    def recommend(self, query: dict, weights: dict = None, k: int = 5,
+                  max_price: float = None) -> pd.DataFrame:
         """
         Quy trình suy luận: (1) nhận tiêu chí + lọc cứng theo ngân sách;
         (2) dùng bộ trọng số người dùng đã chỉnh (đã được chuẩn hóa tổng = 1
@@ -201,9 +202,11 @@ class CarRecommender:
 
         weights: dict 8 khóa (ALL_GROUPS) đã chuẩn hóa tổng = 1. Nếu để None,
         dùng DEFAULT_WEIGHTS (chia đều).
+        max_price: giá trần để lọc xe, nếu bỏ trống sẽ dùng giá trong query.
+        Giá trong query vẫn là mốc so sánh khi tính khoảng cách.
         """
         # (1) Lọc cứng theo ngân sách tối đa (Giai đoạn 1)
-        budget = query.get("Giá( VNĐ)")
+        budget = max_price if max_price is not None else query.get("Giá( VNĐ)")
         if budget is not None:
             mask = self.df["Giá( VNĐ)"] <= budget
             valid_df = self.df[mask].reset_index(drop=True)
