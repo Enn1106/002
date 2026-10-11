@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-from recommender import load_and_clean_data, CarRecommender, DEFAULT_WEIGHTS, normalize_weights
+from backend import load_and_clean_data, CarRecommender, DEFAULT_WEIGHTS, normalize_weights
 from history import load_history, save_search, clear_history
 
 st.set_page_config(page_title="Gợi ý xe ô tô theo nhu cầu (KNN)", page_icon="🚗", layout="wide")
