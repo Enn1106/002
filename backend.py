@@ -40,6 +40,9 @@ def load_and_clean_data(path: str) -> pd.DataFrame:
     """Đọc CSV gốc và làm sạch dữ liệu."""
     df = pd.read_csv(path)
 
+    df = df.dropna(subset=["Tên xe"]).reset_index(drop=True)
+    df["Tên xe"] = df["Tên xe"].str.strip().str.replace(r"\s{2,}", " ", regex=True)
+    
     # Giá: "458.000.000" -> 458000000
     df["Giá( VNĐ)"] = (
         df["Giá( VNĐ)"].astype(str).str.replace(".", "", regex=False).astype(float)
