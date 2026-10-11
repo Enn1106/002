@@ -9,7 +9,7 @@ st.set_page_config(page_title="Gợi ý xe ô tô theo nhu cầu (KNN)", page_ic
 
 @st.cache_data
 def get_data():
-    return load_and_clean_data("cars.csv")
+    return load_and_clean_data("car0.csv")
 
 
 @st.cache_resource
