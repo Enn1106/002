@@ -52,8 +52,7 @@ def load_and_clean_data(path: str) -> pd.DataFrame:
     df["Công suất(HP)"] = (
         df["Công suất(HP)"].astype(str).str.replace(",", ".", regex=False).astype(float)
     )
-
-
+    
     # Chuẩn hóa khoảng trắng thừa ở các cột phân loại khác
     for col in CATEGORICAL_COLS:
         if col != "Nhiên liệu":
