@@ -53,8 +53,6 @@ def load_and_clean_data(path: str) -> pd.DataFrame:
         df["Công suất(HP)"].astype(str).str.replace(",", ".", regex=False).astype(float)
     )
 
-    # Chuẩn hóa lỗi chính tả Nhiên liệu: "HYBRID" / "Hybrid" -> "Hybrid"
-    df["Nhiên liệu"] = df["Nhiên liệu"].str.strip().str.title()
 
     # Chuẩn hóa khoảng trắng thừa ở các cột phân loại khác
     for col in CATEGORICAL_COLS:
