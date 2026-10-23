@@ -26,5 +26,249 @@
       "VinFast VF5 Plus 2025",
       "Jazz 1.5 VX (2019)"
     ]
+  },
+  {
+    "thoi_gian": "2026-10-12 20:11:21",
+    "tieu_chi": {
+      "Giá( VNĐ)": 640000000,
+      "Công suất(HP)": 104,
+      "Chỗ ngồi": 5,
+      "Nhiên liệu": "Xăng",
+      "Mục đích": "Dịch vụ",
+      "Kiểu xe": "Sedan",
+      "Tình trạng": "Mới",
+      "Hộp số": "AT"
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.125,
+      "Nhiên liệu": 0.125,
+      "Công suất(HP)": 0.125,
+      "Chỗ ngồi": 0.125,
+      "Mục đích": 0.125,
+      "Tình trạng": 0.125,
+      "Kiểu xe": 0.125,
+      "Hộp số": 0.125
+    },
+    "ket_qua_hang_dau": [
+      "VIOS 1.5G-CVT",
+      "VIOS 1.5E-CVT",
+      "Accent 1.5 AT",
+      "Grand i10 Sedan 1.2 AT",
+      "Grand i10 Sedan 1.2 AT Tiêu Chuẩn"
+    ]
+  },
+  {
+    "thoi_gian": "2026-10-12 21:30:52",
+    "tieu_chi": {
+      "Giá( VNĐ)": 640000000,
+      "Công suất(HP)": 104,
+      "Chỗ ngồi": 5,
+      "Nhiên liệu": "Xăng",
+      "Mục đích": "Dịch vụ",
+      "Kiểu xe": "Sedan",
+      "Tình trạng": "Mới",
+      "Hộp số": "AT"
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.125,
+      "Nhiên liệu": 0.125,
+      "Công suất(HP)": 0.125,
+      "Chỗ ngồi": 0.125,
+      "Mục đích": 0.125,
+      "Tình trạng": 0.125,
+      "Kiểu xe": 0.125,
+      "Hộp số": 0.125
+    },
+    "ket_qua_hang_dau": [
+      "VIOS 1.5G-CVT",
+      "VIOS 1.5E-CVT",
+      "Accent 1.5 AT",
+      "Grand i10 Sedan 1.2 AT",
+      "Grand i10 Sedan 1.2 AT Tiêu Chuẩn",
+      "Grand i10 Hatchback 1.2 AT",
+      "Grand i10 Hatchback 1.2 AT Tiêu Chuẩn",
+      "VELOZ CROSS CTV",
+      "AVANZA PREMIO CTV",
+      "Stargazer Tiêu Chuẩn",
+      "VinFast Herio Green AT 2026",
+      "VinFast Minio Green AT 2026",
+      "XL7 Hybrid",
+      "Nissan Almera CVT Cao Cấp"
+    ]
+  },
+  {
+    "thoi_gian": "2026-10-12 21:34:40",
+    "tieu_chi": {
+      "Giá( VNĐ)": 890000000
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.175,
+      "Nhiên liệu": 0.088,
+      "Công suất(HP)": 0.149,
+      "Chỗ ngồi": 0.079,
+      "Mục đích": 0.158,
+      "Tình trạng": 0.158,
+      "Kiểu xe": 0.061,
+      "Hộp số": 0.132
+    },
+    "ket_qua_hang_dau": [
+      "VinFast President 6.2 V8 2020",
+      "Pilot 3.5",
+      "VinFast VF8 Plus AWD 2023",
+      "VinFast VF8 Plus AWD 2022",
+      "VinFast VF8 Eco AWD 2023"
+    ]
+  },
+  {
+    "thoi_gian": "2026-10-12 21:34:57",
+    "tieu_chi": {
+      "Giá( VNĐ)": 890000000,
+      "Công suất(HP)": 424
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.175,
+      "Nhiên liệu": 0.088,
+      "Công suất(HP)": 0.149,
+      "Chỗ ngồi": 0.079,
+      "Mục đích": 0.158,
+      "Tình trạng": 0.158,
+      "Kiểu xe": 0.061,
+      "Hộp số": 0.132
+    },
+    "ket_qua_hang_dau": [
+      "VinFast President 6.2 V8 2020",
+      "Pilot 3.5",
+      "Odyssey EX-L 3.5 (2009)",
+      "Odyssey EX-L 3.5 (2008)",
+      "VinFast VF8 Plus AWD 2023"
+    ]
+  },
+  {
+    "thoi_gian": "2026-10-13 17:14:58",
+    "tieu_chi": {
+      "Giá( VNĐ)": 2150000000,
+      "Công suất(HP)": 319,
+      "Chỗ ngồi": 7,
+      "Nhiên liệu": "Điện",
+      "Mục đích": "Cá nhân & Gia đình",
+      "Kiểu xe": "Sedan"
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.286,
+      "Nhiên liệu": 0.102,
+      "Công suất(HP)": 0.102,
+      "Chỗ ngồi": 0.102,
+      "Mục đích": 0.102,
+      "Tình trạng": 0.102,
+      "Kiểu xe": 0.102,
+      "Hộp số": 0.102
+    },
+    "ket_qua_hang_dau": [
+      "VinFast VF9 Plus 7S 2026",
+      "EV9 RWD",
+      "EV6 GT-Line AWD",
+      "Ford Mustang Mach-E Premium AWD 2026",
+      "EV6 RWD",
+      "IONIQ 5 Prestige",
+      "IONIQ 5 Exclusive",
+      "VinFast VF8 Eco AWD 2023"
+    ]
+  },
+  {
+    "thoi_gian": "2026-10-23 09:16:22",
+    "tieu_chi": {
+      "Giá( VNĐ)": 890000000,
+      "Công suất(HP)": 175
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.125,
+      "Nhiên liệu": 0.125,
+      "Công suất(HP)": 0.125,
+      "Chỗ ngồi": 0.125,
+      "Mục đích": 0.125,
+      "Tình trạng": 0.125,
+      "Kiểu xe": 0.125,
+      "Hộp số": 0.125
+    },
+    "ket_qua_hang_dau": [
+      "INNOVA CROSS 2.0V",
+      "INNOVA CROSS 2.0G",
+      "Odyssey EX-L 3.5 (2009)",
+      "Odyssey EX-L 3.5 (2008)",
+      "Odyssey EX-L 3.5 (2007)"
+    ]
+  },
+  {
+    "thoi_gian": "2026-10-23 09:16:48",
+    "tieu_chi": {
+      "Giá( VNĐ)": 890000000,
+      "Công suất(HP)": 175
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.125,
+      "Nhiên liệu": 0.125,
+      "Công suất(HP)": 0.125,
+      "Chỗ ngồi": 0.125,
+      "Mục đích": 0.125,
+      "Tình trạng": 0.125,
+      "Kiểu xe": 0.125,
+      "Hộp số": 0.125
+    },
+    "ket_qua_hang_dau": [
+      "INNOVA CROSS 2.0V",
+      "INNOVA CROSS 2.0G",
+      "Odyssey EX-L 3.5 (2009)",
+      "Odyssey EX-L 3.5 (2008)",
+      "Odyssey EX-L 3.5 (2007)"
+    ]
+  },
+  {
+    "thoi_gian": "2026-10-23 09:19:14",
+    "tieu_chi": {
+      "Giá( VNĐ)": 890000000,
+      "Công suất(HP)": 175,
+      "Chỗ ngồi": 4
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.125,
+      "Nhiên liệu": 0.125,
+      "Công suất(HP)": 0.125,
+      "Chỗ ngồi": 0.125,
+      "Mục đích": 0.125,
+      "Tình trạng": 0.125,
+      "Kiểu xe": 0.125,
+      "Hộp số": 0.125
+    },
+    "ket_qua_hang_dau": [
+      "HR-V RS (Turbo)",
+      "HR-V L (Turbo)",
+      "Civic E",
+      "Ford Ranger XLS 2026",
+      "Accord 1.5 Turbo ( 2022)"
+    ]
+  },
+  {
+    "thoi_gian": "2026-10-23 09:20:09",
+    "tieu_chi": {
+      "Giá( VNĐ)": 890000000,
+      "Chỗ ngồi": 4
+    },
+    "trong_so": {
+      "Giá( VNĐ)": 0.125,
+      "Nhiên liệu": 0.125,
+      "Công suất(HP)": 0.125,
+      "Chỗ ngồi": 0.125,
+      "Mục đích": 0.125,
+      "Tình trạng": 0.125,
+      "Kiểu xe": 0.125,
+      "Hộp số": 0.125
+    },
+    "ket_qua_hang_dau": [
+      "VinFast VF8 Plus AWD 2023",
+      "VinFast VF8 Plus AWD 2022",
+      "VinFast VF8 Eco AWD 2023",
+      "VinFast President 6.2 V8 2020",
+      "Accord 3.5 (2012)"
+    ]
   }
 ]

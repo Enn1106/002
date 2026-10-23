@@ -3,6 +3,7 @@ import pandas as pd
 
 from recommender import load_and_clean_data, CarRecommender, DEFAULT_WEIGHTS, normalize_weights
 from history import load_history, save_search, clear_history
+from gemini_helper import parse_need, explain_results
 
 st.set_page_config(page_title="Gợi ý xe ô tô theo nhu cầu (KNN)", page_icon="🚗", layout="wide")
 
@@ -60,18 +61,68 @@ WEIGHT_LABELS = {
 df = get_data()
 recommender = get_recommender(df)
 
+# --- Giá trị mặc định của các widget (dùng key để Gemini có thể điền tự động) ---
+_p_min = int(df["Giá( VNĐ)"].min() / 1_000_000)
+_p_max = int(df["Giá( VNĐ)"].max() / 1_000_000)
+_hp_min = int(df["Công suất(HP)"].min())
+_hp_max = int(df["Công suất(HP)"].max())
+st.session_state.setdefault("use_price", True)
+st.session_state.setdefault("price_trieu", int(df["Giá( VNĐ)"].median() / 1_000_000))
+st.session_state.setdefault("use_power", False)
+st.session_state.setdefault("power", int(df["Công suất(HP)"].median()))
+for _name in ["seats", "fuel", "purpose", "body", "condition", "gearbox"]:
+    st.session_state.setdefault(_name, "Không yêu cầu")
+for _g in DEFAULT_WEIGHTS:
+    st.session_state.setdefault(f"w_{_g}", DEFAULT_WEIGHTS[_g])
+
+
+def analyze_with_gemini():
+    """Callback: Gemini đọc mô tả tự nhiên -> điền các ô tiêu chí và trọng số."""
+    options = {c: recommender.unique_values(c) for c in
+               ["Chỗ ngồi", "Nhiên liệu", "Mục đích", "Tình trạng", "Kiểu xe", "Hộp số"]}
+    crit, weights, src = parse_need(
+        st.session_state.get("need_text", ""), options, st.session_state.get("gemini_key") or None
+    )
+    ss = st.session_state
+    if "Giá( VNĐ)" in crit:
+        ss["use_price"] = True
+        ss["price_trieu"] = max(_p_min, min(_p_max, crit["Giá( VNĐ)"]))
+    else:
+        ss["use_price"] = False
+    if "Công suất(HP)" in crit:
+        ss["use_power"] = True
+        ss["power"] = max(_hp_min, min(_hp_max, crit["Công suất(HP)"]))
+    else:
+        ss["use_power"] = False
+    ss["seats"] = str(crit["Chỗ ngồi"]) if "Chỗ ngồi" in crit else "Không yêu cầu"
+    for name, key in [("fuel", "Nhiên liệu"), ("purpose", "Mục đích"), ("body", "Kiểu xe"),
+                      ("condition", "Tình trạng"), ("gearbox", "Hộp số")]:
+        ss[name] = crit.get(key, "Không yêu cầu")
+    for g, v in weights.items():
+        ss[f"w_{g}"] = round(round(v / 0.05) * 0.05, 2)
+    ss["parse_src"] = src
+    ss["ai_text"] = None
+
 st.title(" Hệ thống hỗ trợ lựa chọn xe ô tô theo nhu cầu sử dụng")
 st.caption("Nhóm 8 - Đồ án môn Hệ trợ giúp quyết định — Gợi ý xe bằng thuật toán K-Nearest Neighbors (KNN)")
 
 # --- Sidebar: Trọng số ---
 with st.sidebar:
+    st.header(" Gemini API")
+    st.text_input(
+        "Gemini API key", type="password", key="gemini_key",
+        help="Lấy tại aistudio.google.com/apikey. Để trống = dùng biến môi trường GEMINI_API_KEY "
+             "hoặc chế độ dự phòng (không gọi Gemini).",
+    )
+    st.divider()
+
     st.header(" Trọng số thuộc tính")
     st.caption("Tổng trọng số sẽ tự động chuẩn hóa bằng 1.00.")
 
     raw_weights = {}
     for group in DEFAULT_WEIGHTS:
         raw_weights[group] = st.slider(
-            WEIGHT_LABELS[group], 0.0, 1.0, DEFAULT_WEIGHTS[group], 0.05
+            WEIGHT_LABELS[group], 0.0, 1.0, step=0.05, key=f"w_{group}"
         )
 
     active_weights = normalize_weights(raw_weights)
@@ -86,18 +137,28 @@ with st.sidebar:
     )
     st.dataframe(weight_df, hide_index=True, use_container_width=True)
 
+st.subheader("0. Mô tả nhu cầu bằng lời (Gemini)")
+st.text_area(
+    "Bạn cần xe như thế nào?", key="need_text", height=90,
+    placeholder="Ví dụ: Gia đình 5 người, ngân sách khoảng 900 triệu, ưu tiên xe SUV chạy xăng, "
+                "hộp số tự động, đi phố là chính.",
+)
+st.button("✨ Phân tích nhu cầu bằng Gemini", on_click=analyze_with_gemini)
+if st.session_state.get("parse_src"):
+    st.info(f"Đã điền tiêu chí & trọng số bên dưới (nguồn: {st.session_state['parse_src']}). Bạn có thể chỉnh lại trước khi tìm xe.")
+
 st.subheader("1. Nhập tiêu chí mong muốn")
 
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    use_price = st.checkbox("Có ngân sách tối đa", value=True)
+    use_price = st.checkbox("Có ngân sách tối đa", key="use_price")
     price_trieu = st.slider(
         "Ngân sách tối đa (triệu VNĐ)",
-        min_value=int(df["Giá( VNĐ)"].min() / 1_000_000),
-        max_value=int(df["Giá( VNĐ)"].max() / 1_000_000),
-        value=int(df["Giá( VNĐ)"].median() / 1_000_000),
+        min_value=_p_min,
+        max_value=_p_max,
         step=10,
+        key="price_trieu",
         disabled=not use_price,
     )
     price = price_trieu * 1_000_000
@@ -105,36 +166,36 @@ with col1:
         st.caption(f"≈ {format_vnd(price)} (Lọc cứng: Các xe vượt ngân sách này sẽ bị loại bỏ hoàn toàn)")
 
 with col2:
-    use_power = st.checkbox("Có yêu cầu về công suất", value=False)
+    use_power = st.checkbox("Có yêu cầu về công suất", key="use_power")
     power = st.slider(
         "Công suất mong muốn (HP)",
-        min_value=int(df["Công suất(HP)"].min()),
-        max_value=int(df["Công suất(HP)"].max()),
-        value=int(df["Công suất(HP)"].median()),
+        min_value=_hp_min,
+        max_value=_hp_max,
+        key="power",
         disabled=not use_power,
     )
 
 with col3:
     seats_options = ["Không yêu cầu"] + [str(s) for s in recommender.unique_values("Chỗ ngồi")]
-    seats = st.selectbox("Số chỗ ngồi", seats_options)
+    seats = st.selectbox("Số chỗ ngồi", seats_options, key="seats")
 
     fuel_options = ["Không yêu cầu"] + recommender.unique_values("Nhiên liệu")
-    fuel = st.selectbox("Nhiên liệu", fuel_options)
+    fuel = st.selectbox("Nhiên liệu", fuel_options, key="fuel")
 
 with col4:
     purpose_options = ["Không yêu cầu"] + recommender.unique_values("Mục đích")
-    purpose = st.selectbox("Mục đích sử dụng", purpose_options)
+    purpose = st.selectbox("Mục đích sử dụng", purpose_options, key="purpose")
 
     body_options = ["Không yêu cầu"] + recommender.unique_values("Kiểu xe")
-    body = st.selectbox("Kiểu xe", body_options)
+    body = st.selectbox("Kiểu xe", body_options, key="body")
 
 col5, col6, col7 = st.columns(3)
 with col5:
     condition_options = ["Không yêu cầu"] + recommender.unique_values("Tình trạng")
-    condition = st.selectbox("Tình trạng", condition_options)
+    condition = st.selectbox("Tình trạng", condition_options, key="condition")
 with col6:
     gearbox_options = ["Không yêu cầu"] + recommender.unique_values("Hộp số")
-    gearbox = st.selectbox("Hộp số", gearbox_options)
+    gearbox = st.selectbox("Hộp số", gearbox_options, key="gearbox")
 with col7:
     k = st.number_input("Số lượng xe gợi ý (K)", min_value=1, max_value=20, value=5)
 
@@ -168,7 +229,9 @@ if st.button("Tìm xe phù hợp", type="primary"):
     else:
         result = recommender.recommend(query, weights=active_weights, k=int(k))
         st.session_state["last_result"] = result
-        
+        st.session_state["last_query"] = query
+        st.session_state["ai_text"] = None
+
         if len(result) > 0:
             save_search(query, active_weights, result["Tên xe"].tolist())
             st.toast("Đã lưu lượt tìm kiếm vào lịch sử.", icon="💾")
@@ -201,6 +264,19 @@ if result is not None:
         display_df["Giá( VNĐ)"] = display_df["Giá( VNĐ)"].apply(format_vnd)
 
         st.dataframe(display_df, use_container_width=True, hide_index=True)
+
+        # --- Tư vấn bằng Gemini (bấm nút mới gọi API để tiết kiệm quota) ---
+        if st.button("🤖 Nhờ Gemini tư vấn kết quả"):
+            with st.spinner("Gemini đang phân tích..."):
+                st.session_state["ai_text"] = explain_results(
+                    st.session_state.get("last_query", {}), result,
+                    st.session_state.get("gemini_key") or None,
+                )
+        if st.session_state.get("ai_text"):
+            ai_text, ai_src = st.session_state["ai_text"]
+            st.markdown("#### 💬 Tư vấn từ Gemini")
+            st.markdown(ai_text)
+            st.caption(f"Nguồn: {ai_src}")
 
        # --- Vùng Giải thích kết quả chi tiết từng xe ---
         st.subheader("3. Giải thích lý do đề xuất")
